@@ -1,0 +1,75 @@
+# ============================================================================
+# meeting-summary :: orquestación (CPU, sin GPU)
+# ============================================================================
+services:
+
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./backend/migrations/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: ./backend
+    restart: unless-stopped
+    command: >-
+      uvicorn app.main:app --host 0.0.0.0 --port 8080
+    environment:
+      APP_TOKEN: ${APP_TOKEN}
+      DATABASE_URL: ${DATABASE_URL}
+      # Ruta INTERNA del contenedor (el host se define en el volumen de abajo)
+      RECORDINGS_DIR: /opt/recordings
+      WHISPER_LANGUAGE: ${WHISPER_LANGUAGE}
+    volumes:
+      - ${RECORDINGS_DIR}:/opt/recordings
+    ports:
+      - "${API_PORT}:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  worker:
+    build: ./backend
+    restart: unless-stopped
+    command: python -u worker.py
+    environment:
+      APP_TOKEN: ${APP_TOKEN}
+      DATABASE_URL: ${DATABASE_URL}
+      # Ruta INTERNA del contenedor (el host se define en el volumen de abajo)
+      RECORDINGS_DIR: /opt/recordings
+      WHISPER_MODEL: ${WHISPER_MODEL}
+      WHISPER_DEVICE: ${WHISPER_DEVICE}
+      WHISPER_COMPUTE_TYPE: ${WHISPER_COMPUTE_TYPE}
+      WHISPER_CPU_THREADS: ${WHISPER_CPU_THREADS}
+      WHISPER_LANGUAGE: ${WHISPER_LANGUAGE}
+      CLAUDE_BIN: ${CLAUDE_BIN}
+      CLAUDE_MODEL: ${CLAUDE_MODEL}
+      CLAUDE_TIMEOUT: ${CLAUDE_TIMEOUT}
+      # Caché de modelos de faster-whisper (se descarga en el 1er arranque)
+      HF_HOME: /models
+      # 0 = permite descargar el modelo (primer arranque).
+      # 1 = usa SOLO el modelo en caché (evita colgarse por rate-limit de HF).
+      HF_HUB_OFFLINE: "${HF_HUB_OFFLINE:-0}"
+    volumes:
+      - ${RECORDINGS_DIR}:/opt/recordings
+      - whisper-models:/models
+      # Credenciales de Claude Code CLI (login único: ver README)
+      - claude-config:/root/.claude
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  whisper-models:
+  claude-config:

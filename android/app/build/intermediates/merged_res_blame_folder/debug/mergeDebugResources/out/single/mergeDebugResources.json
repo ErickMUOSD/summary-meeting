@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "com.cosmicchimps.meetingsummary.app-debug-33:/layout_item_simple.xml.flat",
+        "source": "com.cosmicchimps.meetingsummary.app-main-35:/layout/item_simple.xml"
+    },
+    {
+        "merged": "com.cosmicchimps.meetingsummary.app-debug-33:/layout_activity_settings.xml.flat",
+        "source": "com.cosmicchimps.meetingsummary.app-main-35:/layout/activity_settings.xml"
+    },
+    {
+        "merged": "com.cosmicchimps.meetingsummary.app-debug-33:/layout_activity_note_wizard.xml.flat",
+        "source": "com.cosmicchimps.meetingsummary.app-main-35:/layout/activity_note_wizard.xml"
+    },
+    {
+        "merged": "com.cosmicchimps.meetingsummary.app-debug-33:/layout_activity_projects.xml.flat",
+        "source": "com.cosmicchimps.meetingsummary.app-main-35:/layout/activity_projects.xml"
+    },
+    {
+        "merged": "com.cosmicchimps.meetingsummary.app-debug-33:/xml_file_paths.xml.flat",
+        "source": "com.cosmicchimps.meetingsummary.app-main-35:/xml/file_paths.xml"
+    },
+    {
+        "merged": "com.cosmicchimps.meetingsummary.app-debug-33:/layout_activity_notes.xml.flat",
+        "source": "com.cosmicchimps.meetingsummary.app-main-35:/layout/activity_notes.xml"
+    }
+]
