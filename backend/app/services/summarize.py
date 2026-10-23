@@ -1,8 +1,11 @@
 """Resumen con Claude Opus 4.8 vía Claude Code CLI en modo headless.
 
 Se invoca `claude -p --model opus` y se le pasa el prompt + transcripción por stdin.
-Requiere que el CLI esté autenticado (login único, ver README) con la suscripción.
+El CLI se autentica con la suscripción de dos formas (ver README):
+  - CLAUDE_CODE_OAUTH_TOKEN (token de `claude setup-token`), o
+  - el login interactivo guardado en ~/.claude.
 """
+import os
 import subprocess
 
 from ..config import settings
@@ -41,6 +44,11 @@ class SummaryError(Exception):
 def summarize_text(transcript: str) -> str:
     """Devuelve el resumen en Markdown. Lanza SummaryError si el CLI falla."""
     prompt = PROMPT_INSTRUCCIONES + transcript.strip() + "\n"
+    # El CLI lee CLAUDE_CODE_OAUTH_TOKEN del entorno; si está configurado lo inyectamos
+    # para usar la suscripción sin login interactivo (token de `claude setup-token`).
+    env = os.environ.copy()
+    if settings.claude_oauth_token:
+        env["CLAUDE_CODE_OAUTH_TOKEN"] = settings.claude_oauth_token
     try:
         proc = subprocess.run(
             [settings.claude_bin, "-p", "--model", settings.claude_model],
@@ -48,6 +56,7 @@ def summarize_text(transcript: str) -> str:
             capture_output=True,
             text=True,
             timeout=settings.claude_timeout,
+            env=env,
         )
     except FileNotFoundError:
         raise SummaryError(

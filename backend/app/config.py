@@ -1,4 +1,5 @@
 """Configuración leída desde variables de entorno."""
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -25,6 +26,10 @@ class Settings(BaseSettings):
     claude_bin: str = "claude"
     claude_model: str = "opus"
     claude_timeout: int = 600
+    # Token de la suscripción generado con `claude setup-token` (CLAUDE_CODE_OAUTH_TOKEN).
+    # Si está definido, el CLI se autentica con él y no hace falta el /login interactivo.
+    # Vacío = se usa el login guardado en el volumen ~/.claude (ver README).
+    claude_oauth_token: str = Field(default="", alias="CLAUDE_CODE_OAUTH_TOKEN")
 
 
 settings = Settings()

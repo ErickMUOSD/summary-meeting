@@ -55,6 +55,8 @@ services:
       CLAUDE_BIN: ${CLAUDE_BIN}
       CLAUDE_MODEL: ${CLAUDE_MODEL}
       CLAUDE_TIMEOUT: ${CLAUDE_TIMEOUT}
+      # Token de la suscripción (`claude setup-token`): si está, no hace falta el /login.
+      CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN:-}
       # Caché de modelos de faster-whisper (se descarga en el 1er arranque)
       HF_HOME: /models
       # 0 = permite descargar el modelo (primer arranque).

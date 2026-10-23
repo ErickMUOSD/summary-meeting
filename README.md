@@ -48,8 +48,19 @@ HF limita las descargas. Si la descarga se bloquea por rate-limit, puedes precar
 la caché copiando un `~/.cache/huggingface/hub/models--Systran--faster-whisper-medium`
 existente dentro del volumen y arrancar con `HF_HUB_OFFLINE=1`.
 
-### Login único de Claude Code (en el worker)  ← **requerido para el paso de resumen**
-El resumen usa tu suscripción vía el CLI. Autentícalo **una vez**:
+### Autenticación de Claude Code (en el worker)  ← **requerido para el paso de resumen**
+El resumen usa tu suscripción vía el CLI. Hay dos formas de autenticarlo; elige una.
+
+**Opción A — token de la suscripción (recomendada para Docker).**
+Genera el token **una vez** en tu máquina (donde ya tengas sesión de Claude Code):
+```bash
+claude setup-token   # imprime un token; sigue el flujo del navegador
+```
+Pégalo en `.env` como `CLAUDE_CODE_OAUTH_TOKEN=...` y levanta los contenedores.
+El worker lo inyecta al CLI por variable de entorno: no hace falta login interactivo
+ni el volumen de credenciales. Si el token expira, vuelve a generarlo.
+
+**Opción B — login interactivo** (si prefieres no manejar el token):
 ```bash
 docker compose exec worker claude
 # dentro del CLI: /login  (sigue el flujo del navegador)
@@ -57,7 +68,8 @@ docker compose exec worker claude
 ```
 Las credenciales (`/root/.claude/.credentials.json`) quedan en el volumen
 `claude-config` y se refrescan solas; si expiran, repite el `/login`.
-Sin este login, subir y transcribir (pasos 1 y 2) funcionan, pero el paso 3
+
+Sin ninguna de las dos, subir y transcribir (pasos 1 y 2) funcionan, pero el paso 3
 (resumen) fallará con un mensaje pidiendo autenticación.
 
 ### Comprobación rápida (sin la app)
