@@ -28,14 +28,40 @@ def _out_dir(note_id) -> str:
     return d
 
 
+def slugify(title: str) -> str:
+    """Convierte el título de la nota en un nombre de archivo seguro."""
+    safe = "".join(c if c.isalnum() or c in "-_ " else "_" for c in (title or "")).strip()
+    return (safe or "nota").replace(" ", "_")
+
+
+def deliverable_basename(title: str, when: datetime | None = None) -> str:
+    """Nombre base de los entregables: <nombre_nota>_<fecha> (sin extensión)."""
+    when = when or datetime.now()
+    return f"{slugify(title)}_{when.strftime('%Y-%m-%d')}"
+
+
 def render_deliverables(note_id, title: str, summary_md: str):
-    """Escribe <out>/summary.md y <out>/summary.pdf. Devuelve (md_path, pdf_path)."""
+    """Escribe los entregables .md y .pdf nombrados <nota>_<fecha>.ext.
+
+    Devuelve (md_path, pdf_path).
+    """
     out_dir = _out_dir(note_id)
-    fecha = datetime.now().strftime("%Y-%m-%d %H:%M")
+    ahora = datetime.now()
+    fecha = ahora.strftime("%Y-%m-%d %H:%M")
+    base = deliverable_basename(title, ahora)
+
+    # Al regenerar, elimina entregables previos para no dejar archivos huérfanos
+    # (p. ej. de una fecha o título anteriores).
+    for name in os.listdir(out_dir):
+        if name.endswith((".md", ".pdf")):
+            try:
+                os.remove(os.path.join(out_dir, name))
+            except OSError:
+                pass
 
     # --- Markdown (encabezado + resumen) ---
     md_full = f"# {title}\n\n_Generado: {fecha}_\n\n{summary_md.strip()}\n"
-    md_path = os.path.join(out_dir, "summary.md")
+    md_path = os.path.join(out_dir, f"{base}.md")
     with open(md_path, "w", encoding="utf-8") as fh:
         fh.write(md_full)
 
@@ -47,7 +73,7 @@ def render_deliverables(note_id, title: str, summary_md: str):
 <div class="meta">Generado: {fecha}</div>
 {body_html}
 </body></html>"""
-    pdf_path = os.path.join(out_dir, "summary.pdf")
+    pdf_path = os.path.join(out_dir, f"{base}.pdf")
     HTML(string=html_doc).write_pdf(pdf_path)
 
     return md_path, pdf_path

@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 
 from ..db import get_db
 from ..models import Note
+from ..services.render import slugify
 
 router = APIRouter(prefix="/notes/{note_id}/download", tags=["downloads"])
 
@@ -20,8 +21,7 @@ def _get_note(db: Session, note_id: uuid.UUID) -> Note:
 
 
 def _slug(note: Note) -> str:
-    safe = "".join(c if c.isalnum() or c in "-_ " else "_" for c in note.title).strip()
-    return (safe or "nota").replace(" ", "_")
+    return slugify(note.title)
 
 
 @router.get("/txt")
