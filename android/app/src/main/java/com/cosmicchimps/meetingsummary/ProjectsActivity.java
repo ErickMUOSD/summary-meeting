@@ -3,17 +3,15 @@ package com.cosmicchimps.meetingsummary;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cosmicchimps.meetingsummary.adapters.SimpleAdapter;
+import com.cosmicchimps.meetingsummary.ui.InputDialog;
 import com.cosmicchimps.meetingsummary.net.ApiClient;
 import com.cosmicchimps.meetingsummary.net.models.CreateBody;
 import com.cosmicchimps.meetingsummary.net.models.Project;
@@ -77,21 +75,13 @@ public class ProjectsActivity extends AppCompatActivity {
     }
 
     private void addProjectDialog() {
-        EditText input = new EditText(this);
-        input.setHint("Nombre del proyecto");
-        new AlertDialog.Builder(this)
-                .setTitle("Nuevo proyecto")
-                .setView(input)
-                .setPositiveButton("Crear", (d, w) -> {
-                    String name = input.getText().toString().trim();
-                    if (name.isEmpty()) return;
-                    Call<Project> call = ApiClient.api(this).createProject(CreateBody.project(name));
-                    Bg.run(call::execute, resp -> {
-                        if (resp.isSuccessful()) load();
-                        else Toast.makeText(this, "Error HTTP " + resp.code(), Toast.LENGTH_LONG).show();
-                    }, e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show());
-                })
-                .setNegativeButton("Cancelar", null)
-                .show();
+        InputDialog.show(this, "Nuevo proyecto", "Nombre del proyecto", "Crear",
+                adapter.titles(), name -> {
+            Call<Project> call = ApiClient.api(this).createProject(CreateBody.project(name));
+            Bg.run(call::execute, resp -> {
+                if (resp.isSuccessful()) load();
+                else Toast.makeText(this, "Error HTTP " + resp.code(), Toast.LENGTH_LONG).show();
+            }, e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show());
+        });
     }
 }

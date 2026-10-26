@@ -3,16 +3,15 @@ package com.cosmicchimps.meetingsummary;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cosmicchimps.meetingsummary.adapters.SimpleAdapter;
+import com.cosmicchimps.meetingsummary.ui.InputDialog;
 import com.cosmicchimps.meetingsummary.net.ApiClient;
 import com.cosmicchimps.meetingsummary.net.models.CreateBody;
 import com.cosmicchimps.meetingsummary.net.models.Note;
@@ -84,21 +83,13 @@ public class NotesActivity extends AppCompatActivity {
     }
 
     private void addNoteDialog() {
-        EditText input = new EditText(this);
-        input.setHint("Título de la nota");
-        new AlertDialog.Builder(this)
-                .setTitle("Nueva nota")
-                .setView(input)
-                .setPositiveButton("Crear", (d, w) -> {
-                    String title = input.getText().toString().trim();
-                    if (title.isEmpty()) return;
-                    Call<Note> call = ApiClient.api(this).createNote(projectId, CreateBody.note(title));
-                    Bg.run(call::execute, resp -> {
-                        if (resp.isSuccessful() && resp.body() != null) openNote(resp.body());
-                        else Toast.makeText(this, "Error HTTP " + resp.code(), Toast.LENGTH_LONG).show();
-                    }, e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show());
-                })
-                .setNegativeButton("Cancelar", null)
-                .show();
+        InputDialog.show(this, "Nueva nota", "Título de la nota", "Crear",
+                adapter.titles(), title -> {
+            Call<Note> call = ApiClient.api(this).createNote(projectId, CreateBody.note(title));
+            Bg.run(call::execute, resp -> {
+                if (resp.isSuccessful() && resp.body() != null) openNote(resp.body());
+                else Toast.makeText(this, "Error HTTP " + resp.code(), Toast.LENGTH_LONG).show();
+            }, e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show());
+        });
     }
 }

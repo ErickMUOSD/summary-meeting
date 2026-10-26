@@ -149,17 +149,35 @@ public class NoteWizardActivity extends AppCompatActivity {
 
     private void collectPicked(Intent data) {
         picked.clear();
+        List<Uri> raw = new ArrayList<>();
         if (data.getClipData() != null) {
             for (int k = 0; k < data.getClipData().getItemCount(); k++) {
-                picked.add(data.getClipData().getItemAt(k).getUri());
+                raw.add(data.getClipData().getItemAt(k).getUri());
             }
         } else if (data.getData() != null) {
-            picked.add(data.getData());
+            raw.add(data.getData());
         }
+
+        // Validación: solo audio real y sin archivos vacíos.
+        int rejNoAudio = 0, rejEmpty = 0;
+        for (Uri u : raw) {
+            if (!FileTransfer.isSupportedAudio(this, u)) { rejNoAudio++; continue; }
+            if (FileTransfer.isEmptyFile(this, u)) { rejEmpty++; continue; }
+            picked.add(u);
+        }
+
         StringBuilder sb = new StringBuilder();
         for (Uri u : picked) sb.append("• ").append(FileTransfer.displayName(this, u)).append("\n");
         selectedFiles.setText(picked.isEmpty() ? "Ningún archivo seleccionado" : sb.toString().trim());
         btnUpload.setEnabled(!picked.isEmpty());
+
+        if (rejNoAudio > 0 || rejEmpty > 0) {
+            StringBuilder msg = new StringBuilder("Se omitieron ");
+            if (rejNoAudio > 0) msg.append(rejNoAudio).append(" no-audio");
+            if (rejNoAudio > 0 && rejEmpty > 0) msg.append(" y ");
+            if (rejEmpty > 0) msg.append(rejEmpty).append(" vacío(s)");
+            Toast.makeText(this, msg.toString(), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void doUpload() {

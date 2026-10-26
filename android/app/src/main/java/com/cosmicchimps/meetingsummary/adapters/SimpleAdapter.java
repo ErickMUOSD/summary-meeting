@@ -36,6 +36,13 @@ public class SimpleAdapter<T> extends RecyclerView.Adapter<SimpleAdapter.VH> {
         notifyDataSetChanged();
     }
 
+    /** Títulos actualmente mostrados (útil para validar duplicados). */
+    public List<String> titles() {
+        List<String> out = new ArrayList<>(items.size());
+        for (T it : items) out.add(titleOf.apply(it));
+        return out;
+    }
+
     @NonNull @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())

@@ -118,7 +118,21 @@ public final class FileTransfer {
     }
 
     // ---------------------------------------------------------------- utils
-    private static long sizeOf(Context ctx, Uri uri) {
+    private static final String[] AUDIO_EXTS = {
+            ".mp3", ".m4a", ".wav", ".aac", ".ogg", ".oga", ".opus",
+            ".flac", ".3gp", ".amr", ".wma", ".caf", ".aiff", ".aif"
+    };
+
+    /** true si el archivo apunta a audio (por MIME real o, en su defecto, extensión). */
+    public static boolean isSupportedAudio(Context ctx, Uri uri) {
+        String mime = ctx.getContentResolver().getType(uri);
+        if (mime != null && mime.toLowerCase().startsWith("audio/")) return true;
+        String name = displayName(ctx, uri).toLowerCase();
+        for (String ext : AUDIO_EXTS) if (name.endsWith(ext)) return true;
+        return false;
+    }
+
+    public static long sizeOf(Context ctx, Uri uri) {
         try (Cursor c = ctx.getContentResolver().query(uri, null, null, null, null)) {
             if (c != null && c.moveToFirst()) {
                 int idx = c.getColumnIndex(OpenableColumns.SIZE);
@@ -126,6 +140,17 @@ public final class FileTransfer {
             }
         } catch (Exception ignored) { }
         return 0;
+    }
+
+    /** true solo si el tamaño es conocido y es 0 bytes (tamaño desconocido no se rechaza). */
+    public static boolean isEmptyFile(Context ctx, Uri uri) {
+        try (Cursor c = ctx.getContentResolver().query(uri, null, null, null, null)) {
+            if (c != null && c.moveToFirst()) {
+                int idx = c.getColumnIndex(OpenableColumns.SIZE);
+                if (idx >= 0 && !c.isNull(idx)) return c.getLong(idx) == 0;
+            }
+        } catch (Exception ignored) { }
+        return false;
     }
 
     public static String displayName(Context ctx, Uri uri) {
