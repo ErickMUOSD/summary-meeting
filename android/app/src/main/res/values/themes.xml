@@ -1,6 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.MeetingSummary" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorOnPrimary">#FFFFFF</item>
+
+    <style name="Theme.OcelOps" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Primario / acentos -->
+        <item name="colorPrimary">@color/cyan_primary</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorPrimaryContainer">@color/surface_elevated</item>
+        <item name="colorOnPrimaryContainer">@color/electric_blue</item>
+        <item name="colorSecondary">@color/electric_blue</item>
+        <item name="colorOnSecondary">@color/bg_deep</item>
+        <item name="colorSecondaryContainer">@color/surface_elevated</item>
+        <item name="colorOnSecondaryContainer">@color/electric_blue</item>
+        <item name="colorTertiary">@color/electric_blue</item>
+        <item name="colorOnTertiary">@color/bg_deep</item>
+
+        <!-- Fondos y superficies -->
+        <item name="android:colorBackground">@color/bg_deep</item>
+        <item name="colorOnBackground">@color/white</item>
+        <item name="colorSurface">@color/surface_metal</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorSurfaceVariant">@color/surface_elevated</item>
+        <item name="colorOnSurfaceVariant">@color/gray_light</item>
+        <item name="colorSurfaceContainerLowest">@color/bg_deep</item>
+        <item name="colorSurfaceContainerLow">@color/surface_metal</item>
+        <item name="colorSurfaceContainer">@color/surface_metal</item>
+        <item name="colorSurfaceContainerHigh">@color/surface_elevated</item>
+        <item name="colorSurfaceContainerHighest">@color/surface_elevated</item>
+        <item name="android:windowBackground">@color/bg_deep</item>
+
+        <!-- Bordes / error -->
+        <item name="colorOutline">@color/outline</item>
+        <item name="colorOutlineVariant">@color/outline</item>
+        <item name="colorError">@color/error</item>
+        <item name="colorOnError">@color/on_error</item>
+
+        <!-- Barras del sistema -->
+        <item name="android:statusBarColor">@color/bg_deep</item>
+        <item name="android:navigationBarColor">@color/bg_deep</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:forceDarkAllowed">false</item>
+
+        <!-- Estilos por defecto de componentes -->
+        <item name="materialButtonStyle">@style/Widget.OcelOps.Button.Filled</item>
+        <item name="materialCardViewStyle">@style/Widget.OcelOps.Card</item>
+
+        <!-- Splash de marca (API 31+, minSdk 33) -->
+        <item name="android:windowSplashScreenBackground">@color/bg_deep</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_ocelot_splash</item>
     </style>
+
+    <!-- Alias para compatibilidad con referencias previas al tema -->
+    <style name="Theme.MeetingSummary" parent="Theme.OcelOps" />
+
 </resources>

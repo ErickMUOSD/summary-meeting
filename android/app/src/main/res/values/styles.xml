@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ===== Formas (overlays) ===== -->
+    <style name="Shape.OcelOps.Button" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_button</item>
+    </style>
+    <style name="Shape.OcelOps.Card" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_card</item>
+    </style>
+
+    <!-- ===== Botones ===== -->
+    <style name="Widget.OcelOps.Button.Filled" parent="Widget.Material3.Button">
+        <item name="android:textColor">@color/on_primary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="backgroundTint">@color/cyan_primary</item>
+        <item name="android:minHeight">52dp</item>
+        <item name="shapeAppearanceOverlay">@style/Shape.OcelOps.Button</item>
+    </style>
+
+    <style name="Widget.OcelOps.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textColor">@color/cyan_primary</item>
+        <item name="strokeColor">@color/cyan_primary</item>
+        <item name="strokeWidth">1.5dp</item>
+        <item name="android:minHeight">52dp</item>
+        <item name="rippleColor">@color/cyan_primary</item>
+        <item name="shapeAppearanceOverlay">@style/Shape.OcelOps.Button</item>
+    </style>
+
+    <style name="Widget.OcelOps.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/electric_blue</item>
+    </style>
+
+    <!-- ===== Tarjetas ===== -->
+    <style name="Widget.OcelOps.Card" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">@color/surface_metal</item>
+        <item name="strokeColor">@color/outline</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="shapeAppearanceOverlay">@style/Shape.OcelOps.Card</item>
+        <item name="contentPadding">0dp</item>
+    </style>
+
+    <!-- ===== Campos de texto ===== -->
+    <style name="Widget.OcelOps.TextInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/cyan_primary</item>
+        <item name="hintTextColor">@color/cyan_primary</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="android:textColorHint">@color/gray_light</item>
+    </style>
+
+    <!-- ===== Progreso ===== -->
+    <style name="Widget.OcelOps.Progress" parent="Widget.Material3.LinearProgressIndicator">
+        <item name="indicatorColor">@color/electric_blue</item>
+        <item name="trackColor">@color/surface_elevated</item>
+        <item name="trackThickness">6dp</item>
+        <item name="trackCornerRadius">3dp</item>
+    </style>
+
+    <!-- ===== Tipografía ===== -->
+    <style name="TextAppearance.OcelOps.Title" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextAppearance.OcelOps.Section" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextAppearance.OcelOps.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/gray_light</item>
+    </style>
+    <style name="TextAppearance.OcelOps.Caption" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textColor">@color/gray_light</item>
+    </style>
+
+    <!-- ===== Banda de encabezado ===== -->
+    <style name="Widget.OcelOps.Header" parent="">
+        <item name="android:background">@color/brand_header</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingStart">@dimen/space_m</item>
+        <item name="android:paddingEnd">@dimen/space_m</item>
+        <item name="android:paddingTop">@dimen/space_m</item>
+        <item name="android:paddingBottom">@dimen/space_s</item>
+    </style>
+
+    <!-- ===== Paso del wizard (indicador numérico) ===== -->
+    <style name="Widget.OcelOps.StepDot" parent="">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/bg_deep</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+</resources>

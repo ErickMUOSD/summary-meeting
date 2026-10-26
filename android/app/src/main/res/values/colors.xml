@@ -1,3 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#2E4A62</color>
+    <!-- ===== Paleta de marca OcelOps ===== -->
+    <color name="cyan_primary">#00ADB5</color>   <!-- Cyan Tecnológico -->
+    <color name="electric_blue">#00E5FF</color>  <!-- Azul Eléctrico -->
+    <color name="bg_deep">#0E171E</color>        <!-- Negro Azulado Profundo -->
+    <color name="surface_metal">#1A242B</color>  <!-- Gris Metal -->
+    <color name="white">#FFFFFF</color>          <!-- Blanco Puro -->
+    <color name="gray_light">#CFD8DC</color>     <!-- Gris Claro -->
+
+    <!-- ===== Derivados ===== -->
+    <color name="surface_elevated">#22303A</color>
+    <color name="outline">#3A4852</color>
+    <color name="disabled">#55636B</color>
+    <color name="on_primary">#06222A</color>     <!-- texto oscuro sobre cian -->
+    <color name="brand_header">#08151D</color>   <!-- banda de encabezado / fondo del wordmark -->
+    <color name="error">#FF5252</color>
+    <color name="on_error">#2A0A0A</color>
+
+    <!-- compat: nombre usado antes -->
+    <color name="primary">#00ADB5</color>
 </resources>

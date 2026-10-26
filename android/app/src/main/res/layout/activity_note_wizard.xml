@@ -1,190 +1,280 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_deep">
 
-    <LinearLayout
+    <include layout="@layout/view_header" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/noteTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/stepIndicator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textSize="14sp"
-            android:textColor="#666666" />
-
-        <!-- ================= PASO 1: Subir ================= -->
         <LinearLayout
-            android:id="@+id/step1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="20dp">
-
-            <Button
-                android:id="@+id/btnPick"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Seleccionar archivos de audio" />
+            android:padding="@dimen/space_m">
 
             <TextView
-                android:id="@+id/selectedFiles"
+                android:id="@+id/noteTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Ningún archivo seleccionado"
-                android:textColor="#666666" />
-
-            <Button
-                android:id="@+id/btnUpload"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:enabled="false"
-                android:text="Subir al servidor" />
-
-            <ProgressBar
-                android:id="@+id/uploadProgress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:max="100" />
+                android:textAppearance="@style/TextAppearance.OcelOps.Title" />
 
             <TextView
-                android:id="@+id/uploadStatus"
+                android:id="@+id/stepIndicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="13sp" />
+                android:layout_marginTop="@dimen/space_xs"
+                android:textColor="@color/cyan_primary"
+                android:textSize="13sp"
+                android:letterSpacing="0.04"
+                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btnNext1"
+            <!-- ================= PASO 1: Subir ================= -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/step1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:enabled="false"
-                android:text="Siguiente →" />
+                android:layout_marginTop="@dimen/space_m">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/space_m">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/space_m">
+                        <TextView
+                            style="@style/Widget.OcelOps.StepDot"
+                            android:background="@drawable/bg_step_active"
+                            android:text="1" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space_s"
+                            android:text="Subir grabaciones"
+                            android:textAppearance="@style/TextAppearance.OcelOps.Section" />
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPick"
+                        style="@style/Widget.OcelOps.Button.Outlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Seleccionar archivos de audio" />
+
+                    <TextView
+                        android:id="@+id/selectedFiles"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_s"
+                        android:text="Ningún archivo seleccionado"
+                        android:textAppearance="@style/TextAppearance.OcelOps.Body" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnUpload"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_m"
+                        android:enabled="false"
+                        android:text="Subir al servidor" />
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/uploadProgress"
+                        style="@style/Widget.OcelOps.Progress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_m"
+                        android:max="100" />
+
+                    <TextView
+                        android:id="@+id/uploadStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_xs"
+                        android:textAppearance="@style/TextAppearance.OcelOps.Caption" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnNext1"
+                        style="@style/Widget.OcelOps.Button.Text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_s"
+                        android:enabled="false"
+                        android:text="Siguiente →" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ================= PASO 2: Transcribir ================= -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/step2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_m"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/space_m">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/space_m">
+                        <TextView
+                            style="@style/Widget.OcelOps.StepDot"
+                            android:background="@drawable/bg_step_active"
+                            android:text="2" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space_s"
+                            android:text="Transcribir"
+                            android:textAppearance="@style/TextAppearance.OcelOps.Section" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/transcribeInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Las grabaciones están en el servidor. Genera la transcripción combinada (.txt)."
+                        android:textAppearance="@style/TextAppearance.OcelOps.Body" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnTranscribe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_m"
+                        android:text="Transcribir" />
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/transcribeProgress"
+                        style="@style/Widget.OcelOps.Progress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_m"
+                        android:max="100" />
+
+                    <TextView
+                        android:id="@+id/transcribeStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_xs"
+                        android:textAppearance="@style/TextAppearance.OcelOps.Caption" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDownloadTxt"
+                        style="@style/Widget.OcelOps.Button.Outlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_m"
+                        android:enabled="false"
+                        android:text="Descargar transcripción (.txt)" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnNext2"
+                        style="@style/Widget.OcelOps.Button.Text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_s"
+                        android:enabled="false"
+                        android:text="Siguiente →" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ================= PASO 3: Resumen IA ================= -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/step3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_m"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/space_m">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/space_m">
+                        <TextView
+                            style="@style/Widget.OcelOps.StepDot"
+                            android:background="@drawable/bg_step_active"
+                            android:text="3" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space_s"
+                            android:text="Resumen con IA"
+                            android:textAppearance="@style/TextAppearance.OcelOps.Section" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Genera el resumen con Claude (Opus 4.8). Obtendrás .md y .pdf."
+                        android:textAppearance="@style/TextAppearance.OcelOps.Body" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSummarize"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_m"
+                        android:text="Generar resumen con IA" />
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/summaryProgress"
+                        style="@style/Widget.OcelOps.Progress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_m"
+                        android:max="100" />
+
+                    <TextView
+                        android:id="@+id/summaryStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_xs"
+                        android:textAppearance="@style/TextAppearance.OcelOps.Caption" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDownloadMd"
+                        style="@style/Widget.OcelOps.Button.Outlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_m"
+                        android:enabled="false"
+                        android:text="Descargar .md" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDownloadPdf"
+                        style="@style/Widget.OcelOps.Button.Outlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_s"
+                        android:enabled="false"
+                        android:text="Descargar .pdf" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
-
-        <!-- ================= PASO 2: Transcribir ================= -->
-        <LinearLayout
-            android:id="@+id/step2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/transcribeInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Las grabaciones están en el servidor. Genera la transcripción combinada (.txt)." />
-
-            <Button
-                android:id="@+id/btnTranscribe"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Transcribir" />
-
-            <ProgressBar
-                android:id="@+id/transcribeProgress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:max="100" />
-
-            <TextView
-                android:id="@+id/transcribeStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="13sp" />
-
-            <Button
-                android:id="@+id/btnDownloadTxt"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:enabled="false"
-                android:text="Descargar transcripción (.txt)" />
-
-            <Button
-                android:id="@+id/btnNext2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:enabled="false"
-                android:text="Siguiente →" />
-        </LinearLayout>
-
-        <!-- ================= PASO 3: Resumen IA ================= -->
-        <LinearLayout
-            android:id="@+id/step3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Genera el resumen con Claude (Opus 4.8). Obtendrás .md y .pdf." />
-
-            <Button
-                android:id="@+id/btnSummarize"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Generar resumen con IA" />
-
-            <ProgressBar
-                android:id="@+id/summaryProgress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:max="100" />
-
-            <TextView
-                android:id="@+id/summaryStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="13sp" />
-
-            <Button
-                android:id="@+id/btnDownloadMd"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:enabled="false"
-                android:text="Descargar .md" />
-
-            <Button
-                android:id="@+id/btnDownloadPdf"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:enabled="false"
-                android:text="Descargar .pdf" />
-        </LinearLayout>
-
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</LinearLayout>

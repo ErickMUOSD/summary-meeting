@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">Meeting Summary</string>
+    <string name="app_name">OcelOps</string>
+    <string name="app_tagline">OcelOps · Meeting Summary</string>
+    <string name="logo_desc">Logo OcelOps</string>
+    <string name="header_subtitle">Meeting Summary</string>
 </resources>
