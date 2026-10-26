@@ -128,7 +128,8 @@ def run_summarize(db, job):
 
     # Entregables .md + .pdf
     set_progress(db, job, 85, "Generando .md y .pdf")
-    md_path, pdf_path = render_deliverables(note.id, note.title, summary_md)
+    project_name = note.project.name if note.project else ""
+    md_path, pdf_path = render_deliverables(note.id, note.title, summary_md, project_name)
 
     fn = db.query(FinalNote).filter(FinalNote.note_id == note.id).first()
     if fn:

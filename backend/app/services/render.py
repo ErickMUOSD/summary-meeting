@@ -28,27 +28,30 @@ def _out_dir(note_id) -> str:
     return d
 
 
-def slugify(title: str) -> str:
-    """Convierte el título de la nota en un nombre de archivo seguro."""
-    safe = "".join(c if c.isalnum() or c in "-_ " else "_" for c in (title or "")).strip()
-    return (safe or "nota").replace(" ", "_")
+def slugify(text: str, fallback: str = "nota") -> str:
+    """Convierte un texto en un fragmento de nombre de archivo seguro."""
+    safe = "".join(c if c.isalnum() or c in "-_ " else "_" for c in (text or "")).strip()
+    return (safe or fallback).replace(" ", "_")
 
 
-def deliverable_basename(title: str, when: datetime | None = None) -> str:
-    """Nombre base de los entregables: <nombre_nota>_<fecha> (sin extensión)."""
+def deliverable_basename(project_name: str, title: str,
+                         when: datetime | None = None) -> str:
+    """Nombre base de los entregables: <proyecto>_<nota>_<fecha> (sin extensión)."""
     when = when or datetime.now()
-    return f"{slugify(title)}_{when.strftime('%Y-%m-%d')}"
+    proyecto = slugify(project_name, fallback="proyecto")
+    nota = slugify(title, fallback="nota")
+    return f"{proyecto}_{nota}_{when.strftime('%Y-%m-%d')}"
 
 
-def render_deliverables(note_id, title: str, summary_md: str):
-    """Escribe los entregables .md y .pdf nombrados <nota>_<fecha>.ext.
+def render_deliverables(note_id, title: str, summary_md: str, project_name: str = ""):
+    """Escribe los entregables .md y .pdf nombrados <proyecto>_<nota>_<fecha>.ext.
 
     Devuelve (md_path, pdf_path).
     """
     out_dir = _out_dir(note_id)
     ahora = datetime.now()
     fecha = ahora.strftime("%Y-%m-%d %H:%M")
-    base = deliverable_basename(title, ahora)
+    base = deliverable_basename(project_name, title, ahora)
 
     # Al regenerar, elimina entregables previos para no dejar archivos huérfanos
     # (p. ej. de una fecha o título anteriores).

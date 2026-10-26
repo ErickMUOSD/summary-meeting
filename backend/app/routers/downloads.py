@@ -40,7 +40,7 @@ def download_md(note_id: uuid.UUID, db: Session = Depends(get_db)):
     if not fn or not fn.md_path or not os.path.exists(fn.md_path):
         raise HTTPException(status_code=404, detail="Resumen .md no disponible")
     return FileResponse(fn.md_path, media_type="text/markdown",
-                        filename=f"{_slug(note)}.md")
+                        filename=os.path.basename(fn.md_path))
 
 
 @router.get("/pdf")
@@ -50,4 +50,4 @@ def download_pdf(note_id: uuid.UUID, db: Session = Depends(get_db)):
     if not fn or not fn.pdf_path or not os.path.exists(fn.pdf_path):
         raise HTTPException(status_code=404, detail="Resumen .pdf no disponible")
     return FileResponse(fn.pdf_path, media_type="application/pdf",
-                        filename=f"{_slug(note)}.pdf")
+                        filename=os.path.basename(fn.pdf_path))
